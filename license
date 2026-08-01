@@ -1,0 +1,83 @@
+
+---
+
+## File 3: `STRATEGY.md`
+
+```markdown
+# ANZAR — Project Strategy
+**Vision:** Own your productivity tools. No rent, no lock-in, no cloud required.
+
+---
+
+## Phase 1: Weekend Web App (Now)
+**Goal:** Ship something you use Monday morning.
+**Stack:** HTML/CSS/JS, localStorage, GitHub Pages.
+**Success:** You schedule German/French study sessions and take linked notes.
+
+**Why web first?**
+- Zero build tooling — save file, refresh browser
+- Instant deploy — push to GitHub, live in 30 seconds
+- Proves the concept before investing in Flutter
+- Data model gets battle-tested by real use
+
+---
+
+## Phase 2: Validate for 4-6 Weeks
+**Goal:** Use it daily. Find what breaks, what annoys, what's missing.
+**Action:** Keep a running list of "Flutter port must-haves."
+
+**Decision gate:** After 6 weeks, ask:
+- Do I still use this? (If no, kill it.)
+- What 3 features would make me pay for this? (If none, it's a tool, not a product.)
+- Is Flutter worth the time, or is the web app enough?
+
+---
+
+## Phase 3: Flutter Port (If Validated)
+**Goal:** Native mobile app with same data model.
+**Approach:** Rebuild UI in Flutter, reuse the mental model from web app.
+**Timeline:** 4-6 weekends (not 4-5 months — scope cut to what you actually use).
+
+**Port priority:**
+1. Week calendar + task CRUD
+2. Markdown notes + `[[links]]`
+3. localStorage → SQLite (Drift/Isar)
+4. Export/import JSON (same format as web app)
+5. Notifications
+6. Everything else (month view, graph, sync) — later or never
+
+---
+
+## Core Principles
+
+| Principle | What It Means |
+|-----------|---------------|
+| **Local-first** | Data never leaves device unless you export it |
+| **Ship small** | Working calendar > perfect calendar |
+| **One stack at a time** | Master web, then port — don't learn Flutter + build product simultaneously |
+| **You are user #1** | If you don't use it daily, no one else will |
+
+---
+
+## Risk Mitigation
+
+| Risk | Mitigation |
+|------|------------|
+| Flutter too hard later | Web app is already usable — no sunk cost |
+| Lose interest | 2-day commitment only, not 5 months |
+| Data loss | Export JSON weekly, takes 5 seconds |
+| Scope creep | "Later or never" list — revisit after 6 weeks |
+
+---
+
+## Success Metrics
+
+- **Week 1:** Used 5/7 days for language study
+- **Week 4:** 20+ notes created, 10+ links between them
+- **Week 6:** Confident decision: port to Flutter, improve web app, or move on
+
+---
+
+## The Real Goal
+
+Not "build Anzar." It's **prove you can ship a usable tool in a week, then decide what deserves more time.**
