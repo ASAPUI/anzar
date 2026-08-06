@@ -1,0 +1,22 @@
+{
+  "name": "anzar",
+  "short_name": "anzar",
+  "description": "Personal command center. Calendar, notes, graph, today.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%230a0a0a' width='192' height='192'/%3E%3Ctext x='96' y='120' font-family='monospace' font-size='120' fill='%23f5a623' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%230a0a0a' width='512' height='512'/%3E%3Ctext x='256' y='340' font-family='monospace' font-size='320' fill='%23f5a623' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

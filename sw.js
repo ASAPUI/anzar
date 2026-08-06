@@ -1,14 +1,15 @@
-const CACHE_NAME   = 'anzar-v4';
+const CACHE_NAME = 'anzar-v1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/css/style.css',
   '/js/app.js',
   '/js/storage.js',
-  '/js/today.js',
-  '/js/calendar.js',
-  '/js/notes.js',
-  '/js/graph.js'
+  '/js/utils/helpers.js',
+  '/js/modules/calendar.js',
+  '/js/modules/notes.js',
+  '/js/modules/graph.js',
+  '/js/modules/today.js'
 ];
 
 self.addEventListener('install', (e) => {
