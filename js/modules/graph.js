@@ -1,3 +1,4 @@
+// js/modules/graph.js
 export const GraphModule = {
   render(container, data, openNoteFn) {
     const view = document.createElement('div');

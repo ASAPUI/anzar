@@ -1,4 +1,5 @@
-import { escapeHtml, debounce } from './utils/helpers.js';
+// js/modules/notes.js
+import { escapeHtml, debounce } from '../utils/helpers.js';
 
 export const NotesModule = {
   currentNoteId: null,
@@ -295,67 +296,22 @@ export const NotesModule = {
       return '<div class="notes-empty-state"><h3>Start typing</h3><p>Markdown preview will appear here</p></div>';
     }
     
-    let html = text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-      .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-      .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`(.*?)`/g, '<code>$1</code>')
-      .replace(/```([a-z]*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
-      .replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>')
-      .replace(/^- \[ \] (.*$)/gim, '<p><input type="checkbox"> $1</p>')
-      .replace(/^- \[x\] (.*$)/gim, '<p><input type="checkbox" checked> $1</p>')
-      .replace(/^- (.*$)/gim, '<li>$1</li>')
-      .replace(/^(\d+)\. (.*$)/gim, '<li>$1. $2</li>')
-      .replace(/\[\[(.*?)\]\]/g, (match, title) => {
-        const linked = data.notes.find(n => n.title.toLowerCase() === title.toLowerCase().trim());
-        return `<a href="#" class="wiki-link" data-title="${escapeHtml(title.trim())}">${escapeHtml(title.trim())}</a>`;
-      })
-      .replace(/#(\w+)/g, '<span class="tag">#$1</span>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-      .replace(/^---$/gim, '<hr>');
-    
-    html = html.replace(/^\|(.+)\|$/gim, (m, p) => {
-      const cells = p.split('|').map(c => c.trim()).filter(Boolean);
-      if (cells.length === 0) return '';
-      if (cells.every(c => /^[-:]+$/.test(c))) return '';
-      return '<tr>' + cells.map(c => `<td>${c}</td>`).join('') + '</tr>';
+    // Pre-process wiki links before marked
+    const withWikiLinks = text.replace(/\[\[(.*?)\]\]/g, (_, title) => {
+      return `<a href="#" class="wiki-link" data-title="${escapeHtml(title.trim())}">${escapeHtml(title.trim())}</a>`;
     });
     
-    html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
-    html = html.replace(/<ul>(\d+\..*?)<\/ul>/gs, (m, p) => {
-      return '<ol>' + p.replace(/<li>/g, '<li>').replace(/<\/li>/g, '</li>') + '</ol>';
-    });
-    html = html.replace(/(<tr>.*<\/tr>\n?)+/g, (m) => {
-      const rows = m.trim().split('\n').filter(r => r.trim());
-      if (rows.length === 0) return '';
-      const headerRow = rows[0];
-      const bodyRows = rows.slice(1).join('\n');
-      return `<table><thead>${headerRow}</thead><tbody>${bodyRows}</tbody></table>`;
+    // Use marked library for Markdown parsing
+    let html = window.marked.parse(withWikiLinks);
+    
+    // Post-process: sanitize link URLs and add rel attribute
+    html = html.replace(/<a href="([^"]*)"([^>]*)>/g, (match, href, attrs) => {
+      const isExternal = href.startsWith('http://') || href.startsWith('https://');
+      const safeHref = isExternal ? href : '#';
+      return `<a href="${safeHref}"${attrs} rel="noopener noreferrer">`;
     });
     
-    const lines = html.split('\n');
-    let result = [];
-    
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (!line) continue;
-      
-      const isBlock = /^<(h[1-6]|ul|ol|li|blockquote|pre|table|thead|tbody|tr|td|hr|div)/.test(line);
-      const isClosing = /^<\//.test(line);
-      
-      if (isBlock || isClosing) {
-        result.push(line);
-      } else {
-        result.push('<p>' + line + '</p>');
-      }
-    }
-    
-    return result.join('\n');
+    return html;
   },
 
   updateStats(view) {

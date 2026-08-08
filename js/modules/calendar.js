@@ -1,4 +1,5 @@
-import { escapeHtml } from './utils/helpers.js';
+// js/modules/calendar.js
+import { escapeHtml } from '../utils/helpers.js';
 
 export const CalendarModule = {
   selectedPriority: 'none',

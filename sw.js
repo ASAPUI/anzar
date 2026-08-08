@@ -4,12 +4,13 @@ const STATIC_ASSETS = [
   '/index.html',
   '/css/style.css',
   '/js/app.js',
-  '/js/storage.js',
-  '/js/utils/helpers.js',
+  // '/js/storage.js',  ← REMOVE THIS LINE (file was deleted)
   '/js/modules/calendar.js',
   '/js/modules/notes.js',
   '/js/modules/graph.js',
-  '/js/modules/today.js'
+  '/js/modules/today.js',
+  '/js/utils/helpers.js',
+  '/manifest.json'
 ];
 
 self.addEventListener('install', (e) => {

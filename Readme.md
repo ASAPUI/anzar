@@ -58,7 +58,28 @@ Enable GitHub Pages in repo settings. Live at `https://ASAPUI.github.io/anzar/`
 ---
 
 ## How to Use
+(Local Development)
 
+```bash
+# Python
+cd anzar
+python -m http.server 8080
+
+# Then open: http://localhost:8080
+```
+
+Or:
+
+```bash
+# Node.js
+npm install -g serve
+cd anzar
+npx serve -s . -l 8080
+
+# Then open: http://localhost:8080
+```
+
+**Do NOT use `file://` protocol** — ES modules require HTTP.
 ### Calendar
 1. Fill the sidebar form: title, date, priority
 2. Click **Add to Calendar**
@@ -128,7 +149,9 @@ anzar/
 
 
 ---
-
+## Summary
+ANZAR is a local-first personal productivity web app (Calendar + Notes + Graph + Today) built in vanilla JS with no build tooling.
+---
 ## License
 
 MIT. Build whatever you want.

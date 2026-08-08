@@ -1,7 +1,16 @@
-import { escapeHtml } from './utils/helpers.js';
+// js/modules/today.js
+import { escapeHtml } from '../utils/helpers.js';
+
+let clockInterval = null;
 
 export const TodayModule = {
   render(container, data) {
+    // Clear any existing interval
+    if (clockInterval) {
+      clearInterval(clockInterval);
+      clockInterval = null;
+    }
+
     const view = document.createElement('div');
     view.className = 'today-view';
     const today = new Date().toISOString().split('T')[0];

@@ -1,3 +1,4 @@
+// js/app.js (COMPLETE MONOLITHIC VERSION — to be modularized in Step 1.5)
 import { CalendarModule } from './modules/calendar.js';
 import { NotesModule } from './modules/notes.js';
 import { GraphModule } from './modules/graph.js';
@@ -36,7 +37,12 @@ const App = {
       console.error('App initialization failed:', error);
       const main = document.getElementById('main');
       if (main) {
-        main.innerHTML = '<div style="padding:2rem;color:var(--accent);font-size:14px"><strong>Error loading Anzar</strong><br>' + error.message + '</div>';
+        main.innerHTML = `<div style="padding:2rem;color:var(--accent);font-family:monospace;font-size:13px;line-height:1.6">
+          <strong style="font-size:16px">⚠ ANZAR Failed to Load</strong><br>
+          <strong>Error:</strong> ${error.message}<br>
+          <strong>Stack:</strong> <code style="display:block;margin-top:8px;background:var(--bg-sidebar);padding:8px;overflow-x:auto">${error.stack}</code>
+          <small style="display:block;margin-top:8px;color:var(--ink-muted)">Check browser console for details.</small>
+        </div>`;
       }
     }
   },
@@ -56,7 +62,7 @@ const App = {
     try {
       localStorage.setItem('anzar_data', JSON.stringify(this.data));
     } catch (e) {
-      console.error('Failed to save data:', e);
+      console.error('Failed to save data — storage may be full:', e);
     }
   },
 
@@ -75,7 +81,7 @@ const App = {
           updatedAt: new Date().toISOString()
         },
         {
-          id: 'lang-overview',
+          id: 'lang-hub',
           title: 'Language Learning Hub',
           content: '# Language Learning\n\nStudying [[German Basics]] and [[French Basics]].\n\nTrack your progress across multiple languages.\n\n#languages #learning',
           folder: 'Languages',
@@ -85,7 +91,7 @@ const App = {
           updatedAt: new Date().toISOString()
         },
         {
-          id: 'lang-german',
+          id: 'lang-de',
           title: 'German Basics',
           content: '# German Basics\n\nFoundational vocabulary and grammar.\n\nSee also [[Language Learning Hub]] and [[French Basics]].\n\n## Vocab\n- das Buch = the book\n- der Stuhl = the chair\n- die Tasse = the cup\n\n#german #vocab',
           folder: 'Languages',
@@ -95,7 +101,7 @@ const App = {
           updatedAt: new Date().toISOString()
         },
         {
-          id: 'lang-french',
+          id: 'lang-fr',
           title: 'French Basics',
           content: '# French Basics\n\nFrench fundamentals and pronunciation.\n\nSee also [[Language Learning Hub]] and [[German Basics]].\n\n## Vocab\n- le livre = the book\n- la chaise = the chair\n- la tasse = the cup\n\n#french #vocab',
           folder: 'Languages',
@@ -190,8 +196,9 @@ const App = {
     const toggle = document.getElementById('themeToggle');
     if (!toggle) return;
     const html = document.documentElement;
-    html.setAttribute('data-theme', this.data.settings.theme);
-    toggle.textContent = this.data.settings.theme === 'dark' ? '☀' : '☾';
+    const savedTheme = this.data.settings?.theme ?? 'dark';
+    html.setAttribute('data-theme', savedTheme);
+    toggle.textContent = savedTheme === 'dark' ? '☀' : '☾';
     toggle.addEventListener('click', () => {
       const current = html.getAttribute('data-theme');
       const next = current === 'dark' ? 'light' : 'dark';
